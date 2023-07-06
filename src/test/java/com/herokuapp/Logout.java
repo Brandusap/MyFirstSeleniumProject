@@ -7,10 +7,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class Login {
-
+public class Logout {
     @Test
-    public void loginTest(){
+    public void logoutTest (){
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         String url = "https://the-internet.herokuapp.com/login";
@@ -22,16 +21,10 @@ public class Login {
         passwordInput.sendKeys("SuperSecretPassword!");
         WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login\"]/button/i"));
         loginButton.click();
-        String secureUrl = "https://the-internet.herokuapp.com/secure";
-        Assert.assertEquals(secureUrl, driver.getCurrentUrl());
-        String successMessage = "You logged into a secure area!";
-        WebElement successAlert = driver.findElement(By.id("flash"));
-        successAlert.getText();
-        Assert.assertTrue(successAlert.getText().contains(successMessage));
-        WebElement logoutButton = driver.findElement(By.className("icon-signout"));
-        Assert.assertTrue(logoutButton.isDisplayed());
+        WebElement logoutButton = driver.findElement(By.xpath("//*[@id=\"content\"]/div/a"));
+        logoutButton.click();
+        WebElement logoutAlert = driver.findElement(By.id("flash"));
+        Assert.assertTrue(logoutAlert.getText().contains("You logged out of the secure area!"));
         driver.close();
-
     }
-
 }
